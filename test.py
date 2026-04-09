@@ -27,3 +27,5 @@ missaoColeta = MissaoColeta(
 missaoExploracao.iniciar_missao()
 missaoExploracao.concluir_missao()
 missaoExploracao.exibir_dados()
+
+# teste push
