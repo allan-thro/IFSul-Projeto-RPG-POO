@@ -23,13 +23,10 @@ class Missao:
         else:
             print(f"Missão com status indevido: {self.status}")
 
-    def concluir_missao(self):
-        if self.status == Status.EM_ANDAMENTO:
-            print(f"Missão concluída como sucesso. A contabilidade do prêmio de {self.recompensa} XP agora está pronta para retirada financeira.")
-            self.status = Status.CONCLUIDA
-        else:
-            print(f"Missão com status indevido: {self.status}")
-    
+    def concluir_missao(self, parametro):
+        pass 
+
+
     @property
     def nome(self):
         return self.__nome
@@ -90,23 +87,88 @@ class Missao:
     
 class MissaoCombate(Missao):
     def __init__(self, nome:str, descricao:str, recompensa:int, tipo_inimigo:str, inimigos_a_derrotar:int, status:Status = Status.PENDENTE):
-        super().__init__(nome, descricao, recompensa, status)
+        super().__init__(nome, descricao, recompensa, status)   
 
-        self.inimigos_a_derrotar = inimigos_a_derrotar
-        self.tipo_inimigo = tipo_inimigo
+        self.__inimigos_a_derrotar = inimigos_a_derrotar
+        self.__tipo_inimigo = tipo_inimigo
 
+    def concluir_missao(self, parametro):
+        if not isinstance(parametro, int): raise Exception("Inimigos derrotados deve ser numérico")
+
+        if(parametro >= self.inimigos_a_derrotar and self.status == Status.EM_ANDAMENTO):
+            print(f"Missão concluida com sucesso! Todos os inimigos foram derrotados")
+            self.status = Status.CONCLUIDA
+        elif(parametro >= self.inimigos_a_derrotar):
+            print(f"Status da missão incorreto: {self.status}")
+        
+
+
+    @property
+    def tipo_inimigo(self):
+        return self.__tipo_inimigo
+
+    @tipo_inimigo.setter
+    def tipo_inimigo(self, tipo_inimigo:str):
+        self.__tipo_inimigo = tipo_inimigo
+
+    @property
+    def inimigos_a_derrotar(self):
+        return self.__inimigos_a_derrotar
+    
+    @inimigos_a_derrotar.setter
+    def inimigos_a_derrotar(self, inimigos_a_derrotar:int):
+        self.__inimigos_a_derrotar = inimigos_a_derrotar
+    
     
 class MissaoColeta(Missao):
     def __init__(self, nome:str, descricao:str, recompensa:int, item_necessario:str, quantidade_item:int, status:Status = Status.PENDENTE):
         super().__init__(nome, descricao, recompensa, status)       
 
-        self.item_necessario = item_necessario
-        self.quantidade_item = quantidade_item
+        self.__item_necessario = item_necessario
+        self.__quantidade_item = quantidade_item
+
+    
+
+    @property
+    def tipo_inimigo(self):
+        return self.__tipo_inimigo
+
+    @tipo_inimigo.setter
+    def tipo_inimigo(self, tipo_inimigo:str):
+        if tipo_inimigo is None: raise Exception("Tipo de inimigo não pode ser nulo")
+        self.__tipo_inimigo = tipo_inimigo
+
+    @property
+    def inimigos_a_derrotar(self):
+        return self.__inimigos_a_derrotar
+    
+    @inimigos_a_derrotar.setter
+    def inimigos_a_derrotar(self, inimigos_a_derrotar:int):
+        if inimigos_a_derrotar <= 0: raise Exception("Quantidade de inimigos deve ser maior que zero")
+        self.__inimigos_a_derrotar = inimigos_a_derrotar
 
 class MissaoExploracao(Missao):
     def __init__(self, nome:str, descricao:str, recompensa:int, regiao_destino:str, distancia_em_km:float, status:Status = Status.PENDENTE):
         super().__init__(nome, descricao, recompensa, status)
+        
+        self.__distancia_em_km = distancia_em_km
+        self.__regiao_destino = regiao_destino
 
-        self.distancia_em_km = distancia_em_km
-        self.regiao_destino = regiao_destino
+    @property
+    def regiao_destino(self):
+        return self.__regiao_destino
+
+    @regiao_destino.setter
+    def regiao_destino(self, regiao_destino: str):
+        if regiao_destino is None: raise Exception("Região de destino não pode ser nula")
+        self.__regiao_destino = regiao_destino
+
+    @property
+    def distancia_em_km(self):
+        return self.__distancia_em_km
+
+    @distancia_em_km.setter
+    def distancia_em_km(self, distancia_em_km: float):
+        if distancia_em_km < 0: raise Exception("Distância não pode ser negativa")
+        self.__distancia_em_km = distancia_em_km
 

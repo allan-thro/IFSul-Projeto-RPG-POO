@@ -24,8 +24,7 @@ missaoColeta = MissaoColeta(
     100
 )
 
-missaoExploracao.iniciar_missao()
-missaoExploracao.concluir_missao()
-missaoExploracao.exibir_dados()
+missaoCombate.concluir_missao(10)
+
 
 # teste push
