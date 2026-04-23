@@ -85,6 +85,8 @@ class Missao:
         self.__descricao = descricao
 
     
+
+
 class MissaoCombate(Missao):
     def __init__(self, nome:str, descricao:str, recompensa:int, tipo_inimigo:str, inimigos_a_derrotar:int, status:Status = Status.PENDENTE):
         super().__init__(nome, descricao, recompensa, status)   
@@ -95,12 +97,13 @@ class MissaoCombate(Missao):
     def concluir_missao(self, parametro):
         if not isinstance(parametro, int): raise Exception("Inimigos derrotados deve ser numérico")
 
-        if(parametro >= self.inimigos_a_derrotar and self.status == Status.EM_ANDAMENTO):
+        if(parametro >= self.__inimigos_a_derrotar and self.status == Status.EM_ANDAMENTO):
             print(f"Missão concluida com sucesso! Todos os inimigos foram derrotados")
             self.status = Status.CONCLUIDA
-        elif(parametro >= self.inimigos_a_derrotar):
+        elif(parametro >= self.__inimigos_a_derrotar):
             print(f"Status da missão incorreto: {self.status}")
-        
+        else:
+            print(f"Inimigos insuficientes. Derrotados: {parametro}, Esperado: {self.__inimigos_a_derrotar}")
 
 
     @property
@@ -127,25 +130,36 @@ class MissaoColeta(Missao):
         self.__item_necessario = item_necessario
         self.__quantidade_item = quantidade_item
 
+    def concluir_missao(self, parametro):
+        if not isinstance(parametro, int): raise Exception("Quantidade coletada deve ser numérico")
+
+        if(parametro >= self.__quantidade_item and self.status == Status.EM_ANDAMENTO):
+            print(f"Missão concluida com sucesso! Todos os itens forma coletados!")
+            self.status = Status.CONCLUIDA
+        elif(parametro >= self.__quantidade_item):
+            print(f"Status da missão incorreto: {self.status}")
+        else:
+            print(f"Objetos insuficientes. Coletado: {parametro}, Esperado: {self.__quantidade_item}")
+
     
 
     @property
-    def tipo_inimigo(self):
-        return self.__tipo_inimigo
+    def item_necessario(self):
+        return self.__item_necessario
 
-    @tipo_inimigo.setter
-    def tipo_inimigo(self, tipo_inimigo:str):
-        if tipo_inimigo is None: raise Exception("Tipo de inimigo não pode ser nulo")
-        self.__tipo_inimigo = tipo_inimigo
+    @item_necessario.setter
+    def item_necessario(self, item_necessario:str):
+        if item_necessario is None: raise Exception("Tipo de inimigo não pode ser nulo")
+        self.__item_necessario = item_necessario
 
     @property
-    def inimigos_a_derrotar(self):
-        return self.__inimigos_a_derrotar
+    def quantidade_item(self):
+        return self.__quantidade_item
     
-    @inimigos_a_derrotar.setter
-    def inimigos_a_derrotar(self, inimigos_a_derrotar:int):
-        if inimigos_a_derrotar <= 0: raise Exception("Quantidade de inimigos deve ser maior que zero")
-        self.__inimigos_a_derrotar = inimigos_a_derrotar
+    @quantidade_item.setter
+    def quantidade_item(self, quantidade_item:int):
+        if quantidade_item <= 0: raise Exception("Quantidade de inimigos deve ser maior que zero")
+        self.__quantidade_item = quantidade_item
 
 class MissaoExploracao(Missao):
     def __init__(self, nome:str, descricao:str, recompensa:int, regiao_destino:str, distancia_em_km:float, status:Status = Status.PENDENTE):
@@ -153,6 +167,17 @@ class MissaoExploracao(Missao):
         
         self.__distancia_em_km = distancia_em_km
         self.__regiao_destino = regiao_destino
+
+    """def concluir_missao(self, parametro): <- concluir missão não definido
+        if not isinstance(parametro, float): raise Exception("Quantidade coletada deve ser numérico")
+
+        if(parametro >= self.__item_necessario and self.__status == Status.EM_ANDAMENTO):
+            print(f"Missão concluida com sucesso! Todos os itens forma coletados!")
+            self.status = Status.CONCLUIDA
+        elif(parametro >= self.__item_necessario):
+            print(f"Status da missão incorreto: {self.status}")
+        else:
+            print(f"Objetos insuficientes. Coletado: {parametro}, Esperado: {self.__item_necessario}")"""
 
     @property
     def regiao_destino(self):
