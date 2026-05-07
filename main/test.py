@@ -1,5 +1,5 @@
-from personagem import *
-from missao import *
+from main.model.personagem.personagem import *
+from main.model.missao.missao import *
 
 buscaPeloJava = MissaoExploracao(
     "Em busca do java perdido",
