@@ -5,3 +5,8 @@ class Status(Enum):
     EM_ANDAMENTO = ("Em Andamento")
     CONCLUIDA = ("Concluida")
     FRACASSADA = ("Fracassada")
+
+class TipoMissao(Enum):
+    COLETA = ("Coleta")
+    COMBATE = ("Combate")
+    EXPLORACAO = ("Exploração")
